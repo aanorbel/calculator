@@ -1,63 +1,63 @@
 pipeline {
-     agent any
-     stages {
-          stage("Compile") {
-               steps {
-                    sh "./gradlew compileJava"
-               }
-          }
-         
-		   //stage("Code coverage") {
-  //   steps {
-         // sh "./gradlew jacocoTestReport"
-         // sh "./gradlew jacocoTestCoverageVerification"
-     //}z
-//}
-		  
-stage("Package") {
-     steps {
-          sh "./gradlew build"
-     }
-}
+    agent any
+    stages {
+        stage("Compile") {
+            steps {
+                sh "./gradlew clean compileJava"
+            }
+        }
 
-stage("Docker build") {
-     steps {
-	     
-          sh "docker build -t nikhilnidhi/calculator_1 ."
-     }
-}
+//        stage("Code coverage") {
+//            steps {
+//                sh "./gradlew jacocoTestReport"
+//                sh "./gradlew jacocoTestCoverageVerification"
+//            } z
+//        }
 
-stage("Docker push") {
-     steps {
-	 sh "echo 'docker login and docker push'"
-	//  sh "docker login -u nikhilnidhi -p chinki12"
+        stage("Package") {
+            steps {
+                sh "./gradlew build"
+            }
+        }
 
-        //  sh "docker push nikhilnidhi/calculator_1"
-     }
-}
-stage("Deploy to staging") {
-     steps {
-	 sh "echo 'Deploy to staging'"
+        stage("Docker build") {
+            steps {
 
-         // sh "docker run -d --rm -p 8765:8080 --name calculator_1 nikhilnidhi/calculator_1"
-	//	 sh "docker-compose up -d"
-     }
-}
+                sh "docker build -t nikhilnidhi/calculator_1 ."
+            }
+        }
 
-stage("Acceptance test") {
-     steps {
-	  sh "echo 'Acceptance test'"
+        stage("Docker push") {
+            steps {
+                sh "echo 'docker login and docker push'"
+                //  sh "docker login -u nikhilnidhi -p chinki12"
 
-          //sleep 60
-          //sh "./acceptance_test_docker.sh"
-     }
-}
-     }
-	 post {
-     always {
-	 sh "echo 'Acceptance test'"
+                //  sh "docker push nikhilnidhi/calculator_1"
+            }
+        }
+        stage("Deploy to staging") {
+            steps {
+                sh "echo 'Deploy to staging'"
 
-        // sh "docker-compose down"
-     }
-}
+                // sh "docker run -d --rm -p 8765:8080 --name calculator_1 nikhilnidhi/calculator_1"
+                //	 sh "docker-compose up -d"
+            }
+        }
+
+        stage("Acceptance test") {
+            steps {
+                sh "echo 'Acceptance test'"
+
+                //sleep 60
+                //sh "./acceptance_test_docker.sh"
+            }
+        }
+    }
+    post {
+        always {
+            sh "echo 'Acceptance test'"
+
+            // sh "docker-compose down"
+        }
+    }
 }
