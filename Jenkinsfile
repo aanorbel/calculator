@@ -4,14 +4,18 @@ pipeline {
         registryCredential = 'openshift-pusher'
         dockerImage = ''
         latestDockerImage = ''
+        repositoryName = 'libs-snapshot-local'
+        organization = 'com.sumelongenterprise'
+        organization = 'demo-openshift'
         def scannerHome = tool 'sonar'
         def uploadSpec = """{
-           "files": [
-                       {
-                       "pattern": "build/libs/*.jar",
-                       }     
-                     ] 
-               }"""
+             "files": [
+               {
+                 "pattern": "build/libs/*.jar",
+                 "target": "${repositoryName}/${organization}/${moduleName}/{1}/{2}/{3}/{4}/{5}.jar"
+               }
+             ]
+            }"""
     }
     agent any
     stages {
