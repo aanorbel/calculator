@@ -26,7 +26,9 @@ pipeline {
 
         stage("Docker build") {
             steps {
-                docker.build("organisation/calculator")
+                script {
+                    docker.build("organisation/calculator")
+                }
                 sh "docker build -t organisation/calculator:${env.BUILD_ID} ."
             }
         }
