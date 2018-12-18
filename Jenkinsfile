@@ -1,7 +1,8 @@
 pipeline {
     environment {
-        registry = "organisation/calculator"
+        registry = 'docker-registry-default.apps.192.168.33.10.nip.io/development/myimage'
         registryCredential = 'openshift-pusher'
+        dockerImage = ''
     }
     agent any
     stages {
@@ -10,13 +11,6 @@ pipeline {
                 sh "./gradlew clean compileJava"
             }
         }
-
-//        stage("Code coverage") {
-//            steps {
-//                sh "./gradlew jacocoTestReport"
-//                sh "./gradlew jacocoTestCoverageVerification"
-//            } z
-//        }
 
         stage("Package") {
             steps {
@@ -27,9 +21,9 @@ pipeline {
         stage("Docker build") {
             steps {
                 script {
-                    docker.build("organisation/calculator")
+//                    docker.build(registry)
+                    dockerImage = docker.build("${registry}:${env.BUILD_ID}")
                 }
-                sh "docker build -t organisation/calculator:${env.BUILD_ID} ."
             }
         }
 
@@ -40,7 +34,7 @@ pipeline {
 
                 //  sh "docker push nikhilnidhi/calculator_1"
                 script {
-                    docker.withRegistry('', registryCredential) {
+                    docker.withRegistry('docker-registry-default.apps.192.168.33.10.nip.io', registryCredential) {
                         dockerImage.push()
                     }
                 }
