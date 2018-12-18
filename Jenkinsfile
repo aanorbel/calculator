@@ -29,7 +29,7 @@ stage("Docker build") {
 
 stage("Docker push") {
      steps {
-	     sh "echo 'docker login and docker push'"
+	 sh "echo 'docker login and docker push'"
 	//  sh "docker login -u nikhilnidhi -p chinki12"
 
         //  sh "docker push nikhilnidhi/calculator_1"
@@ -37,7 +37,8 @@ stage("Docker push") {
 }
 stage("Deploy to staging") {
      steps {
-	
+	 sh "echo 'Deploy to staging'"
+
          // sh "docker run -d --rm -p 8765:8080 --name calculator_1 nikhilnidhi/calculator_1"
 	//	 sh "docker-compose up -d"
      }
@@ -45,6 +46,8 @@ stage("Deploy to staging") {
 
 stage("Acceptance test") {
      steps {
+	  sh "echo 'Acceptance test'"
+
           //sleep 60
           //sh "./acceptance_test_docker.sh"
      }
@@ -52,6 +55,8 @@ stage("Acceptance test") {
      }
 	 post {
      always {
+	 sh "echo 'Acceptance test'"
+
         // sh "docker-compose down"
      }
 }
