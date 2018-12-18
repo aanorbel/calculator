@@ -3,6 +3,7 @@ pipeline {
         registry = 'docker-registry-default.apps.192.168.33.10.nip.io/development/myimage'
         registryCredential = 'openshift-pusher'
         dockerImage = ''
+        latestDockerImage = ''
     }
     agent any
     stages {
@@ -21,7 +22,7 @@ pipeline {
         stage("Docker build") {
             steps {
                 script {
-//                    docker.build(registry)
+                    latestDockerImage = docker.build(registry)
                     dockerImage = docker.build("${registry}:${env.BUILD_ID}")
                 }
             }
@@ -36,6 +37,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://docker-registry-default.apps.192.168.33.10.nip.io', registryCredential) {
                         dockerImage.push()
+                        latestDockerImage.push()
                     }
                 }
             }
