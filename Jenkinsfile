@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar') {
-                        bat "${scannerHome}/bin/sonar-runner"
+                        sh "${scannerHome}/bin/sonar-runner"
                     }
                 }
             }
