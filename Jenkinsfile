@@ -4,12 +4,12 @@ pipeline {
         registryCredential = 'openshift-pusher'
         dockerImage = ''
         latestDockerImage = ''
+        def scannerHome = tool 'sonar';
     }
     agent any
     stages {
         stage('SonarQube analysis') {
             // requires SonarQube Scanner 2.8+
-            def scannerHome = tool 'sonar';
             withSonarQubeEnv('sonar') {
                 bat "${scannerHome}/bin/sonar-runner"
             }
