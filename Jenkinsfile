@@ -5,14 +5,13 @@ pipeline {
         dockerImage = ''
         latestDockerImage = ''
         repositoryName = 'libs-snapshot-local'
-        organization = 'com.sumelongenterprise'
         moduleName = 'demo-openshift'
         def scannerHome = tool 'sonar'
         def uploadSpec = """{
              "files": [
                {
                  "pattern": "build/libs/*.jar",
-                 "target": "${repositoryName}/${organization}/${moduleName}/{1}/{2}/{3}/{4}/{5}.jar"
+                 "target": "${repositoryName}/com/sumelongenterprise/${moduleName}/0.0.1.BUILD-SNAPSHOT/${moduleName}.jar"
                }
              ]
             }"""
