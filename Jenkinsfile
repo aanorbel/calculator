@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+        registry = "organisation/calculator"
+        registryCredential = 'openshift-pusher'
+    }
     agent any
     stages {
         stage("Compile") {
@@ -22,8 +26,8 @@ pipeline {
 
         stage("Docker build") {
             steps {
-
-                sh "docker build -t nikhilnidhi/calculator_1 ."
+                docker.build("organisation/calculator")
+                sh "docker build -t organisation/calculator:${env.BUILD_ID} ."
             }
         }
 
@@ -33,6 +37,11 @@ pipeline {
                 //  sh "docker login -u nikhilnidhi -p chinki12"
 
                 //  sh "docker push nikhilnidhi/calculator_1"
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
             }
         }
         stage("Deploy to staging") {
