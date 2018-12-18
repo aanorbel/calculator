@@ -34,7 +34,7 @@ pipeline {
 
                 //  sh "docker push nikhilnidhi/calculator_1"
                 script {
-                    docker.withRegistry('docker-registry-default.apps.192.168.33.10.nip.io', registryCredential) {
+                    docker.withRegistry('https://docker-registry-default.apps.192.168.33.10.nip.io', registryCredential) {
                         dockerImage.push()
                     }
                 }
