@@ -7,12 +7,11 @@ pipeline {
         def scannerHome = tool 'sonar'
         def uploadSpec = """{
            "files": [
-               {
-               "pattern": "target/*.zip",
-                   "target": "libs-snapshot-local/dk/redpill_linpro/mulesoft_integration_builds/"
-               }
-           ]
-    }"""
+                       {
+                       "pattern": "build/libs/*.jar",
+                       }     
+                     ] 
+               }"""
     }
     agent any
     stages {
