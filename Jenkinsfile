@@ -42,7 +42,7 @@ pipeline {
                     rtGradle.usesPlugin = true
 
 // Set a Gradle Tool defined in Jenkins "Manage":
-                    rtGradle.tool = gradle
+                    rtGradle.tool = 'gradle'
 // Run Gradle:
                     def buildInfo = rtGradle.run rootDir: "", buildFile: 'build.gradle', tasks: 'artifactoryPublish'
 // Alternatively, you can pass an existing build-info instance to the run method:
