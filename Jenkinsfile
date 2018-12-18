@@ -9,9 +9,12 @@ pipeline {
     agent any
     stages {
         stage('SonarQube analysis') {
-            // requires SonarQube Scanner 2.8+
-            withSonarQubeEnv('sonar') {
-                bat "${scannerHome}/bin/sonar-runner"
+            steps {
+                script {
+                    withSonarQubeEnv('sonar') {
+                        bat "${scannerHome}/bin/sonar-runner"
+                    }
+                }
             }
         }
         stage("Compile") {
