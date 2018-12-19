@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = 'docker-registry-default.apps.192.168.33.10.nip.io/development/myimage'
+        registry = '192.168.33.11/development/myimage'
         registryCredential = 'openshift-pusher'
         dockerImage = ''
         latestDockerImage = ''
@@ -65,7 +65,7 @@ pipeline {
             steps {
 
                 script {
-                    docker.withRegistry('https://docker-registry-default.apps.192.168.33.10.nip.io', registryCredential) {
+                    docker.withRegistry('http://192.168.33.11', registryCredential) {
                         dockerImage.push()
                         latestDockerImage.push()
                     }
