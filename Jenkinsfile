@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = '192.168.33.11/development/myimage'
+        registry = '192.168.33.11/openshift/jenkins-spring-build'
         registryCredential = 'openshift-pusher'
         dockerImage = ''
         latestDockerImage = ''
