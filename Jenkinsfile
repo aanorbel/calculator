@@ -75,7 +75,9 @@ pipeline {
         stage("Deploy to staging") {
             steps {
                 sh "echo 'Deploy to staging'"
-
+                script {
+                    openshiftBuild apiURL: 'https://console.192.168.33.10.nip.io:8443', authToken: 'cwU5Xdp4vLQF6EsXmY_SSxOCkpVAOpflU-iiqFlCfs0', bldCfg: ' jenkins-spring-build ', buildName: '', checkForTriggeredDeployments: 'false', commitID: '', namespace: 'development', showBuildLogs: 'false', verbose: 'false', waitTime: '', waitUnit: 'sec'
+                }
             }
         }
 
