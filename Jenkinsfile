@@ -6,7 +6,7 @@ pipeline {
         latestDockerImage = ''
         repositoryName = 'libs-snapshot-local'
         moduleName = 'demo-openshift'
-        def scannerHome = tool 'sonar'
+        def scannerHome = tool 'sonarqube'
         def uploadSpec = """{
              "files": [
                {
