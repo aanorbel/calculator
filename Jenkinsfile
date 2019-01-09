@@ -91,7 +91,6 @@ pipeline {
                             } else {
                                 print 'deployment config exists'
                                 deploymentConfig.rollout().latest()
-                                deploymentConfig.describe()
                             }
                         }
                     }
