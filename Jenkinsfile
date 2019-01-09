@@ -84,7 +84,7 @@ pipeline {
 
                             if (!openshift.selector("dc", "test-config").exists()) {
                                 print 'deployment config does not exists'
-                                def objs = openshift.create('deployment-config.yml')
+                                def objs = openshift.create('https://raw.githubusercontent.com/aanorbel/dind-pipeline-sample/master/deployment-config.yml')
                                 objs.describe()
                             }
                         }
