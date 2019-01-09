@@ -90,8 +90,7 @@ pipeline {
                                 objs.describe()
                             } else {
                                 print 'deployment config exists'
-//                                openshiftDeploy apiURL: "${env.OPENSHIFT_CLUSTER_URL}", authToken: "${env.OPENSHIFT_JENKINS_TOKEN}", depCfg: dc, verbose: 'true', waitTime: '2', waitUnit: 'min'
-                                deploymentConfig.deploy()
+                                deploymentConfig.rollout()
                             }
                         }
                     }
