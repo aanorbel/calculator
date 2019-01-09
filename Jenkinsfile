@@ -82,7 +82,7 @@ pipeline {
                             // Output the url of the currently selected cluster
                             echo "Using project ${openshift.project()} in cluster with url ${openshift.cluster()}"
 
-                            def deploymentConfig = openshift.selector("dc", "test-config");
+                            def deploymentConfig = openshift.selector("dc", "jenkins-spring-build")
                             if (! deploymentConfig.exists()) {
                                 print 'deployment config does not exists'
                                 def objs = openshift.create('https://raw.githubusercontent.com/aanorbel/dind-pipeline-sample/master/deployment-config.yml')
