@@ -36,7 +36,7 @@ void actualTest() {
      */
 
     try {
-        timeout(time: 20, unit: 'MINUTES') {
+        timeout(time: 40, unit: 'MINUTES') {
             // Select the default cluster
             openshift.withCluster('openshift') {
                 // Test openshift.patch and selector.patch
