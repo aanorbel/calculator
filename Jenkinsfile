@@ -90,7 +90,7 @@ pipeline {
                                 objs.describe()
                             } else {
                                 print 'deployment config exists'
-                                deploymentConfig.rollout()
+                                deploymentConfig.rollout().latest()
                             }
                         }
                     }
