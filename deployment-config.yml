@@ -4,29 +4,29 @@ items:
   - apiVersion: v1
     kind: Service
     metadata:
-      name: ${NAME}
+      name: jenkins-spring-build
     spec:
       ports:
         - port: 8080
           targetPort: 8080
       selector:
-        deploymentconfig: ${NAME}
+        deploymentconfig: jenkins-spring-build
   - apiVersion: v1
     kind: DeploymentConfig
     metadata:
-      name: ${NAME}
+      name: jenkins-spring-build
     spec:
       replicas: 1
       selector:
-        deploymentconfig: ${NAME}
+        deploymentconfig: jenkins-spring-build
       template:
         metadata:
           labels:
-            deploymentconfig: ${NAME}
+            deploymentconfig: jenkins-spring-build
         spec:
           containers:
             - image: '192.168.33.11/openshift/jenkins-spring-build:latest'
-              name: ${NAME}
+              name: jenkins-spring-build
               ports:
                 - containerPort: 8080
                   protocol: TCP
@@ -34,14 +34,8 @@ items:
   - apiVersion: v1
     kind: Route
     metadata:
-      name: ${NAME}
+      name: jenkins-spring-build
     spec:
       to:
         kind: Service
-        name: ${NAME}
-parameters:
-  - description: The name assigned to all of the frontend objects defined in this project.
-    displayName: Name
-    name: NAME
-    required: true
-    value: jenkins-spring-build
+        name: jenkins-spring-build
