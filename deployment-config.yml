@@ -1,68 +1,41 @@
-kind: DeploymentConfig
-apiVersion: apps.openshift.io/v1
-metadata:
-  name: jenkins-spring-build
-  labels:
-    app: jenkins-spring-build
-spec:
-  strategy:
-    type: Rolling
-    rollingParams:
-      updatePeriodSeconds: 1
-      intervalSeconds: 1
-      timeoutSeconds: 600
-      maxUnavailable: 25%
-      maxSurge: 25%
-    resources: {}
-    activeDeadlineSeconds: 21600
-  triggers:
-    - type: ConfigChange
-  replicas: 1
-  revisionHistoryLimit: 10
-  test: false
-  selector:
-    app: jenkins-spring-build
-    deploymentconfig: jenkins-spring-build
-  template:
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: v1
+    kind: Service
     metadata:
-      creationTimestamp: null
-      labels:
-        app: jenkins-spring-build
-        deploymentconfig: jenkins-spring-build
-      annotations:
-        openshift.io/generated-by: OpenShiftNewApp
+      name: jenkins-spring-build
     spec:
-      containers:
-        - name: jenkins-spring-build
-          image: '192.168.33.11/openshift/jenkins-spring-build:latest'
-          ports:
-            - containerPort: 8080
-              protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          imagePullPolicy: Always
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      dnsPolicy: ClusterFirst
-      securityContext: {}
-      schedulerName: default-scheduler
-status:
-  observedGeneration: 6
-  details:
-    message: manual change
-    causes:
-      - type: Manual
-  availableReplicas: 1
-  unavailableReplicas: 0
-  latestVersion: 6
-  updatedReplicas: 1
-  conditions:
-    - type: Available
-      status: 'True'
-      message: Deployment config has minimum availability.
-    - type: Progressing
-      status: 'True'
-      reason: NewReplicationControllerAvailable
-  replicas: 1
-  readyReplicas: 1
+      ports:
+        - port: 8080
+          targetPort: 8080
+      selector:
+        deploymentconfig: jenkins-spring-build
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      name: jenkins-spring-build
+    spec:
+      replicas: 1
+      selector:
+        deploymentconfig: jenkins-spring-build
+      template:
+        metadata:
+          labels:
+            deploymentconfig: jenkins-spring-build
+        spec:
+          containers:
+            - image: '192.168.33.11/openshift/jenkins-spring-build:latest'
+              name: jenkins-spring-build
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+
+  - apiVersion: v1
+    kind: Route
+    metadata:
+      name: jenkins-spring-build
+    spec:
+      to:
+        kind: Service
+        name: jenkins-spring-build
