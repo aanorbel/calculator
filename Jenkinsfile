@@ -82,7 +82,7 @@ pipeline {
                             // Output the url of the currently selected cluster
                             echo "Using project ${openshift.project()} in cluster with url ${openshift.cluster()}"
 
-                            if (openshift.selector("dc", "jenkins-spring-build").exist()) {
+                            if (openshift.selector("dc", "jenkins-spring-build").exists()) {
                                 print 'deployment config exists'
                             } else {
                                 print 'deployment config does not exists'
