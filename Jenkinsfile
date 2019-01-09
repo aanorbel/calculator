@@ -6,6 +6,7 @@ pipeline {
         latestDockerImage = ''
         repositoryName = 'libs-snapshot-local'
         moduleName = 'demo-openshift'
+        dc='jenkins-spring-build'
         def scannerHome = tool 'sonarqube'
         def uploadSpec = """{
              "files": [
@@ -82,14 +83,14 @@ pipeline {
                             // Output the url of the currently selected cluster
                             echo "Using project ${openshift.project()} in cluster with url ${openshift.cluster()}"
 
-                            def deploymentConfig = openshift.selector("dc", "jenkins-spring-build")
+                            def deploymentConfig = openshift.selector("dc", dc)
                             if (! deploymentConfig.exists()) {
                                 print 'deployment config does not exists'
                                 def objs = openshift.create('https://raw.githubusercontent.com/aanorbel/dind-pipeline-sample/master/deployment-config.yml')
                                 objs.describe()
                             } else {
                                 print 'deployment config exists'
-                                deploymentConfig.startBuild()
+                                openshiftDeploy apiURL: "${env.OPENSHIFT_CLUSTER_URL}", authToken: "${env.OPENSHIFT_JENKINS_TOKEN}", depCfg: dc, verbose: 'true', waitTime: '2', waitUnit: 'min'
                             }
                         }
                     }
