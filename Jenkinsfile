@@ -82,14 +82,17 @@ pipeline {
                             // Output the url of the currently selected cluster
                             echo "Using project ${openshift.project()} in cluster with url ${openshift.cluster()}"
 
-                            if (!openshift.selector("dc", "test-config").exists()) {
+                            def deploymentConfig = openshift.selector("dc", "test-config");
+                            if (! deploymentConfig.exists()) {
                                 print 'deployment config does not exists'
                                 def objs = openshift.create('https://raw.githubusercontent.com/aanorbel/dind-pipeline-sample/master/deployment-config.yml')
                                 objs.describe()
+                            } else {
+                                print 'deployment config exists'
+                                deploymentConfig.startBuild()
                             }
                         }
                     }
-                    openshiftDeploy apiURL: "${env.OPENSHIFT_CLUSTER_URL}", authToken: "${env.OPENSHIFT_JENKINS_TOKEN}", depCfg: 'jenkins-spring-build', namespace: 'development', verbose: 'true', waitTime: '2', waitUnit: 'min'
                 }
             }
         }
