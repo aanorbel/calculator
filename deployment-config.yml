@@ -25,7 +25,7 @@ items:
             deploymentconfig: jenkins-spring-build
         spec:
           containers:
-            - image: 'image: 81.169.198.21:33354/jenkins/jenkins-spring-build'
+            - image: '81.169.198.21:33354/jenkins/jenkins-spring-build'
               name: jenkins-spring-build
               ports:
                 - containerPort: 8080
